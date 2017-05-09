@@ -7,7 +7,7 @@ def smartAppNameShort() {
 }
 
 def smartAppVersion() {
-    return  "Version 0.0.5"
+    return  "Version 0.0.6"
 }
 
 def smartAppAuthor() {
@@ -41,7 +41,10 @@ def smartAppRevision () {
             ' * Added error handling for batteries that return strings\n\n' +
             '2014-12-26  v0.0.5\n' +
             ' * Move app metadata to a new about page\n' +
-            ' * Changed notifications to only send at specified time daily\n'
+            ' * Changed notifications to only send at specified time daily\n\n' +
+            '2017-05-08  v0.0.6\n' +
+            ' * Renamed for GitHub integration support\n' +
+            ' * Added support for sending SMS notifications to more than one phone number\n'
 }
 
 def smartAppLicense() {
@@ -246,9 +249,9 @@ def pageConfigure() {
     ]
 
     def inputSMS       = [
-        name:           "phoneNumber",
+        name:           "phoneNumbers",
         type:           "phone",
-        title:          "Send SMS notifications to?",
+        title:          "Send SMS notifications? Enter one or more phone numbers separated by '*'",
         required:       false
     ]
 
@@ -287,7 +290,6 @@ def pageConfigure() {
 
 def installed() {
     log.debug "Initialized with settings: ${settings}"
-
     initialize()
 }
 
@@ -310,8 +312,10 @@ def send(msg) {
         sendNotificationEvent(msg)
     }
 
-    if (settings.phoneNumber != null) {
-        sendSms(phoneNumber, msg) 
+    if (settings.phoneNumbers) {
+        for (phone in phoneNumbers.split('\\*')) {
+            if (phone) {sendSms(phone, msg)}
+        }
     }
 }
 

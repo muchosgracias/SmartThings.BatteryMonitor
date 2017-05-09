@@ -46,5 +46,9 @@ This SmartApp helps you monitor the status of your SmartThings devices with batt
 * Move app metadata to a new about page
 * Changed notifications to only send at specified time daily
 
+2017-05-08  v0.0.6
+* Renamed for GitHub integration support
+* Added support for sending SMS notifications to more than one phone number
+
 The latest version of this file can be found at:
   https://github.com/notoriousbdg/SmartThings.BatteryMonitor
